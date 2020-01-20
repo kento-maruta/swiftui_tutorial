@@ -11,16 +11,34 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Text("Hello, World!22")
-                .font(.largeTitle)
-            HStack {
-                Text("テストです")
-                    .font(.subheadline)
-                Spacer()
-                Text("横に並ぶよ")
+            Image("AppImage")
+            Text("テストのアプリです")
+            Button("ログイン") {
+                
+            }
+            .modifier(EllipseView(color: .red))
+            Button("新規会員登録") {
+                
             }
         }
         .padding(.all, 16.0)
+    }
+}
+
+struct EllipseView: ViewModifier {
+    let color: Color
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.white)
+            .padding()
+            .background(color)
+            .background(GeometryReader{ geometry -> Text in
+                print("******", geometry.size)
+                content.clipShape(RoundedRectangle(cornerRadius: geometry.size.height / 2))
+                return Text("")
+            })
     }
 }
 
