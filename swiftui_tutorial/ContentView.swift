@@ -9,36 +9,46 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var isShowAlert = false
     var body: some View {
         VStack {
             Image("AppImage")
             Text("テストのアプリです")
             Button("ログイン") {
-                
+                self.isShowAlert.toggle()
             }
+            .alert(isPresented: $isShowAlert, content: {
+                Alert(title: Text("おしました!"))
+            })
             .modifier(EllipseView(color: .red))
             Button("新規会員登録") {
                 
             }
+            Text("")
+            .modifier(BorderView())
         }
         .padding(.all, 16.0)
     }
 }
 
 struct EllipseView: ViewModifier {
-    let color: Color
-    
+    var color: Color
     func body(content: Content) -> some View {
         content
-            .font(.largeTitle)
             .foregroundColor(.white)
             .padding()
             .background(color)
-            .background(GeometryReader{ geometry -> Text in
-                print("******", geometry.size)
-                content.clipShape(RoundedRectangle(cornerRadius: geometry.size.height / 2))
-                return Text("")
-            })
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+struct BorderView: ViewModifier {
+    var color: Color = .green
+    func body(content: Content) -> some View {
+        content
+            .frame(width: UIScreen.main.bounds.width, height: 1, alignment: .center)
+        .background(color)
     }
 }
 
